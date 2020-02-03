@@ -1,0 +1,271 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{exercise}
+\usepackage{hyperref}
+
+\lstset{
+numbers=left, 
+numberstyle=\small, 
+numbersep=8pt, 
+frame = single, 
+framexleftmargin=15pt}
+
+\title{Basic Building Blocks}
+
+\begin{document}
+\maketitle
+
+\section{Overview and Preface}
+
+This lesson will teach you the basic building blocks of programming which are
+\begin{itemize}
+\item Variables,
+\item Loops,
+\item Conditionals,
+\item Functions,
+\item and Structs,
+\end{itemize}
+Most of computer science and software engineering is about how to effectively use the above concepts to accomplish some goal whether it be making a website like Google or running computer simulations for spaceship engines.
+Note that there is a distinction between the disciplines of \textbf{computer science} and \textbf{software engineering}.
+In very simplified terms, \textbf{computer science} is about finding new ways to solve some problem using a computer and \textbf{software engineering} is about finding the best way to tell the computer to solve the problem \textit{and} allowing you and your coworkers/fellow students to understand the solution weeks/months/years later.
+In fact, there are many computer scientists who are horrendous software engineers and many software engineers who are terrible computer scientists \footnote{I will note that this is unideal and to be truly effective, one should know both.}.
+However, they both fields share the common toolset of ``programming''.
+My goal is to give you a solid foundation in programming so that you can excel in both should you choose.
+
+Now, a common misconception about programming is that it requires one to excel in math.
+However, that is simply not the case.
+In fact, learning to become an effective programmer is probably more similar to learning a new language.
+You certainly do not need to know multivariate calculus and partial differential equations to excel as a software engineer who creates websites and mobile applications for a living.
+On the flip side, the more in depth you go in computer science, the more you will see the similarities between computer science and applied math so a strong foundation in math is definitely encouraged.
+
+This lesson will focus on slowly introducing you to the building blocks of programming without burdening you with the harsh syntax requirements of real programming languages.
+We will use an ad hoc pseudo-language to present these concepts; however, most programming languages will an equivalent so these skills should be easily transferable.
+Note that I will use the word \textit{code} and \textit{program} interchangeably and I will refer to the \textit{code} written using our pseudo-language as \textit{pseudocode}.
+
+\section{Variables}
+
+Programming variables are very similar to the variables you learned about in Algebra.
+Using your knowledge of Algebra, one can determine from Equation \ref{eq:algebra} that $y = 4$ and that $x$ and $y$ are the \textit{variables}.
+\begin{equation}
+\begin{aligned}
+x & = 1 \\
+y & = x + 3
+\end{aligned}
+\label{eq:algebra}
+\end{equation}
+Let us rewrite Equation \ref{eq:algebra} using our pseudo-language as seen in Listing \ref{code:algebra_pseudo}.
+\begin{lstlisting}[caption={The equivalent of Equation \ref{eq:algebra} in our pseudo-language.}, label={code:algebra_pseudo}]
+var x = 1
+var y = x + 3
+\end{lstlisting}
+Here, we use the \lstinline{var} keyword to indicate that we are introducing a \textbf{new} \textit{variable} with the name \lstinline{x}.
+The \lstinline{= 1} means the same thing as in Algebra; we are simply saying that we are assigning the \textit{variable} \lstinline{x} the value of $1$.
+There is, however, one crucial difference between Algebra and programming.
+\begin{equation}
+\begin{aligned}
+x & = 1 \\
+y & = x + 3 \\
+x & = x + 5
+\end{aligned}
+\label{eq:algebra_invalid}
+\end{equation}
+In math, Equation \ref{eq:algebra_invalid} makes no sense because
+\begin{enumerate}
+\item How can $x = 1$ while simultaneously be $x = x + 5$.
+\item How can $x$ be defined using itself?
+\end{enumerate}
+However, the pseudocode shown in Listing \ref{code:algebra_invalid_pseudo} is perfectly valid.
+\begin{lstlisting}[caption={The equivalent of Equation \ref{eq:algebra_invalid} in our pseudo-language.}, label={code:algebra_invalid_pseudo}]
+var x = 1
+var y = x + 3
+x = x + 5
+\end{lstlisting}
+The first difference between code and Algebra is the concept of \textit{time}.
+While Equation \ref{eq:algebra_invalid} is a singular statement of truth, Listing \ref{code:algebra_invalid_pseudo} are three separate statements that modify what is \textit{currently} true.
+Thus, the proper way to read Listing \ref{code:algebra_invalid_pseudo} is in three separate steps and \textbf{each line of code gets executed in the order that they appear}.
+\begin{enumerate}
+\item After Line 1 executes, there is a variable \lstinline{x} with a value of $1$ and \textbf{no other variables exist}.
+\item After Line 2 executes, \lstinline{x} still has a value of $1$ and there is now another variable \lstinline{y} with a value of $4$.
+\item After Line 3 executes, \lstinline{x} has a value of $6$ and \lstinline{y} is unchanged.
+\end{enumerate}
+By convention, the right hand side of the equal sign is executed first which makes Line 3 perfectly valid.
+The alternative way of writing that line is shown in Listing \ref{code:explicit_pseudo}; however, that requires two lines to write and creates a new variable and is thus less desirable.
+\begin{lstlisting}[caption={A more explicit $x = x + 5$.}, label={code:explicit_pseudo}]
+var z = x + 5
+x = z
+\end{lstlisting}
+The true math equivalent of Listing \ref{code:algebra_invalid_pseudo} is thus shown in Equation \ref{eq:algebra_invalid_fix}.
+\begin{equation}
+\begin{aligned}
+x_0 & = 1 \\
+y & = x_0 + 3 \\
+x & = x_0 + 5
+\end{aligned}
+\label{eq:algebra_invalid_fix}
+\end{equation}
+Finally, it is important to note that you can only set a variable equal to values that exist at that current moment in time.
+Thus, writing \lstinline{var x = y + 2} in line 1 of Listing \ref{code:algebra_invalid_pseudo} would be invalid.
+Similarly, writing \lstinline{var x = x + 2} in line 1 of Listing \ref{code:algebra_invalid_pseudo} would also be invalid.
+Remember, the right hand side of the equal sign is executed first and at that point, \lstinline{var x} has not been executed to actually create the variable \lstinline{x}.
+
+\section{Loops}
+
+Sometimes one has the need to do something multiple times.
+Take Listing \ref{code:loop_pseudo_unrolled} for example.
+While it is somewhat contrived as we could just set \lstinline{var x = 6} to begin with, let us roll with it.
+\begin{lstlisting}[caption={Unless you know what are you doing (you don't), don't do this.}, label={code:loop_pseudo_unrolled}]
+var x = 1
+x = x + 1
+x = x + 1
+x = x + 1
+x = x + 1
+x = x + 1
+\end{lstlisting}
+Effectively, this code is saying we want to increment \lstinline{x} (\lstinline{x = x + 1}) $5$ times.
+Thus instead of writing lines $2$ through $6$ and duplicating code (generally bad!), we could write a loop instead as seen in Listing \ref{code:loop_pseudo}.
+\begin{lstlisting}[caption={Loops are cool.}, label={code:loop_pseudo}]
+var x = 1
+var i = 0
+LOOP i < 5 {
+    x = x + 1
+    i = i + 1
+}
+\end{lstlisting}
+Here, the statement \lstinline|LOOP i < 5 { ... } | means that we want to \textbf{loop} (repeat) everything between the curly braces (\lstinline|{ ... }|) while the \textit{terminating condition} \lstinline{i < 5} is true.
+Thus, Listing \ref{code:loop_pseudo} can be interpreted as
+\begin{enumerate}
+\item Create a new variable \lstinline{x} and set it to $1$.
+\item Create a new variable \lstinline{i} and set it to $0$. \footnote{By convention, \textit{most} programming languages start counting at $0$, get used to it!}
+\item Evaluate \lstinline{i < 5} ($i = 0$) to be \lstinline{true}.
+\item Set $x = 2$.
+\item Set $i = 1$.
+\item Evaluate \lstinline{i < 5} ($i = 1$) to be \lstinline{true}.
+\item Set $x = 3$.
+\item Set $i = 2$.
+\item Evaluate \lstinline{i < 5} ($i = 2$) to be \lstinline{true}.
+\item Set $x = 4$.
+\item Set $i = 3$.
+\item Evaluate \lstinline{i < 5} ($i = 3$) to be \lstinline{true}.
+\item Set $x = 5$.
+\item Set $i = 4$.
+\item Evaluate \lstinline{i < 5} ($i = 4$) to be \lstinline{true}.
+\item Set $x = 6$.
+\item Set $i = 5$.
+\item Evaluate \lstinline{i < 5} ($i = 5$) to be \lstinline{false} and stop looping.
+\end{enumerate}
+In this toy example, we can see that we saved ourselves from writing one line of code; however, imagine the savings that you would have if you wanted to do \lstinline{x = x + 1} $100$ times instead.
+In Listing \ref{code:loop_pseudo}, that would be as simple as replacing the $5$ with $100$.
+Cool!
+What would happen if we removed line $5$ from Listing \ref{code:loop_pseudo}?
+In that case, the statement \lstinline{i < 5} would always be true and the loop would never stop.
+This is called an \textbf{infinite loop} because the loop will run an infinite number of times betcause the terminating condition will never be false!
+While many times an \textbf{infinite loop} is a bug, it is sometimes desirable behavior and maybe languages allow you to write \lstinline|LOOP { ... }| (i.e. having no \textit{terminating condition}) to explicitly declare an infinite loop.
+
+\section{Conditionals}
+
+\section{Functions}
+
+\section{Structs}
+
+\section{Exercises}
+
+\subsection{Variables}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_1}, mathescape]
+var x = 1
+var y = x + 3
+var z = y $\times$ 5
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{y} after Line 2 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 3 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_2}]
+var x = x + 5
+var y = 3
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_3},mathescape]
+var x = 2
+var y = x $\times$ 2
+var z = y $\times$ 2
+x = z $\times$ 4
+y = x / 2
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 3 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{y} after Line 5 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\subsection{Loops}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_1},mathescape]
+var x = 2
+var i = 0
+LOOP i $<=$ 7 {
+    x = x + 5
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item How many times will the loop run?
+\item What is the value of \lstinline{x} after the loop finishes running $3$ times.
+\end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_2},mathescape]
+var x = 1
+var i = 9
+LOOP i $>=$ 0 {
+    x = x * 2
+    i = i - 3
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item How many times will the loop run?
+\item What is the value of \lstinline{x} after the loop finishes running.
+\end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a program that will
+\begin{enumerate}
+\item Set the value of $y$ to be $7$.
+\item Increment the value of $x$ (with an initial value of your choosing) $y$ number of times.
+\end{enumerate}
+
+\end{Exercise}
+
+\end{document}
