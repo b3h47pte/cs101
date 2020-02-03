@@ -49,6 +49,8 @@
 
 ## Programming for Humans
 
+- Debug Fu
+- Google Fu
 - Python Modules
 - Intermediate Python
     - Iterators

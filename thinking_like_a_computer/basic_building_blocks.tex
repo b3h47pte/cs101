@@ -2,7 +2,6 @@
 \usepackage{amsmath}
 \usepackage{fullpage}
 \usepackage{listings}
-\usepackage{exercise}
 \usepackage{hyperref}
 
 \lstset{
@@ -10,7 +9,10 @@ numbers=left,
 numberstyle=\small, 
 numbersep=8pt, 
 frame = single, 
-framexleftmargin=15pt}
+framexleftmargin=15pt,
+basicstyle = \ttfamily,
+columns=fullflexible
+}
 
 \title{Basic Building Blocks}
 
@@ -24,8 +26,7 @@ This lesson will teach you the basic building blocks of programming which are
 \item Variables,
 \item Loops,
 \item Conditionals,
-\item Functions,
-\item and Structs,
+\item and Functions.
 \end{itemize}
 Most of computer science and software engineering is about how to effectively use the above concepts to accomplish some goal whether it be making a website like Google or running computer simulations for spaceship engines.
 Note that there is a distinction between the disciplines of \textbf{computer science} and \textbf{software engineering}.
@@ -109,6 +110,103 @@ Finally, it is important to note that you can only set a variable equal to value
 Thus, writing \lstinline{var x = y + 2} in line 1 of Listing \ref{code:algebra_invalid_pseudo} would be invalid.
 Similarly, writing \lstinline{var x = x + 2} in line 1 of Listing \ref{code:algebra_invalid_pseudo} would also be invalid.
 Remember, the right hand side of the equal sign is executed first and at that point, \lstinline{var x} has not been executed to actually create the variable \lstinline{x}.
+Thus if we just write \lstinline{var x}, then we have created the variable, the computer knows the variable \lstinline{x} exists, but \lstinline{x} has not been assigned a value.
+Then if we write \lstinline{x = 5} in the next line, then we have assigned an actual value to the variable.
+Before the variable is assigned a value, the value of the variable is \textbf{undefined}.
+
+\section{Conditionals}
+
+In our discussion of variables, every line of code gets run; however, the true power of programming comes from the fact that you can tell the computer to do different things depending on whether certain conditions are met.
+For example, what if we want to have \lstinline{y} be set to a different value depending on whether \lstinline{x} is divisble by $2$, divisible by $3$, or divisible by neither.
+This is where conditionals come into play and the most common conditional you will see is the \textbf{if-else if-else} conditional.
+
+See Listing \ref{code:pseudo_conditional_1} for a stereotypical if-else if-else statement example.
+In this case, after the program finishes running \lstinline{y} will be set to $3$.
+\begin{lstlisting}[caption={A stereotypical IF statement.}, label={code:pseudo_conditional_1}]
+var x = 10
+var y
+IF x % 2 == 0 {
+    y = 3
+}
+\end{lstlisting}
+In this example, we have introduced three new concepts to our pseudolanguage:
+\begin{enumerate}
+\item The \lstinline{IF} statement.
+\item The \lstinline{==} operator.
+\item The modulo operator \lstinline{%}.
+\end{enumerate}
+The \lstinline{IF} statement does what it sounds like it does.
+\lstinline{IF} the statement (conditional) \lstinline{x % 2 == 0} is true, then execute the code within the curly braces \lstinline|{ ... }|.
+Note that there can be multiple lines of code within the curly braces, commonly called a ``block'' of code.
+In this case, that would be to set $y = 3$.
+If the statement is not true, the ignore the code within the curly braces and move on to after the right curly brace \lstinline|}|.
+
+Next, \lstinline{==} is the equality check operator.
+That is, \lstinline{x == y} is a true statement if and only if \lstinline{x} equals \lstinline{y}.
+In programming, we generally need to differentiate between a single equal sign (assigning variables) and two equal signs (equality).
+Similarly, \lstinline{!=} is used to represent the inequality check operator.
+That is, \lstinline{x != y} is a true statement if and only if \lstinline{x} does not equal \lstinline{y}.
+
+Next, to determine whether something is divisble by a number you want to use the \textbf{modulo} operation, commonly denoted by the \lstinline{%} symbol.
+If you write \lstinline{z = x % y}, then \lstinline{z} will equal the remainder after you divide \lstinline{x} by \lstinline{y}.
+Thus, to determine is a number \lstinline{x} is divisible by another number \lstinline{y}, all you need to check is if \lstinline{x} modulo \lstinline{y} is equal to $0$.
+
+Now, let us introduce the \lstinline{ELSE IF} and \lstinline{ELSE} statements that are commonly used in conjunction with the \lstinline{IF} statement.
+\begin{lstlisting}[caption={A stereotypical IF-ELSE IF-ELSE statement.}, label={code:pseudo_conditional_2}]
+var x = 10
+var y
+IF x % 3 == 0 {
+    y = 3
+} ELSE IF x % 5 == 0 {
+    y = 42
+} ELSE {
+    y = 27
+}
+\end{lstlisting}
+In Listing \ref{code:pseudo_conditional_2}, we see that the initial \lstinline{IF} statement has a conditional that is false because $10$ is not divisible by $3$.
+Then, the code will move on to the \lstinline{ELSE IF} statement to check if \lstinline{x} is divisible by $5$.
+In this example, it is so \lstinline{y} is set to $42$.
+However, \lstinline{x} was not divisible by $5$ then the catch-all \lstinline{ELSE} statement would evaluate and thus the code would set \lstinline{y} to $27$.
+Note that you can not have an \lstinline{ELSE IF} or an \lstinline{ELSE} without the initial \lstinline{IF} statement.
+Furthermore, you can only have one \lstinline{ELSE} statement for every \lstinline{IF} statement.
+You can, however, have any number of \lstinline{ELSE IF} statements.
+One helpful way of reading code in general is to translate the program into plain English.
+In this case, this program would read
+\begin{lstlisting}
+First, set x to be equal to 10.
+Then create the variable y but do not assign it a value.
+Then if x is divisible by 3, set y to be 3.
+If x is not divisible by 3 but is divisible by 5, set y to be 42.
+If x is neither by 3 nor 5, then set y to be 27.
+\end{lstlisting}
+
+Note, however, that there is a subtle but important difference between using an \lstinline{IF-ELSE IF} statement and using two separate \lstinline{IF} statements.
+Compare the code in Listing \ref{code:pseudo_if_else_if} versus the code in Listing \ref{code:pseudo_if_if}.
+
+\begin{lstlisting}[caption={IF ELSE-IF.}, label={code:pseudo_if_else_if}]
+var x = 10
+var y
+IF x % 2 == 0 {
+    y = 2
+} ELSE IF x % 5 == 0 {
+    y = 5
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={IF IF.}, label={code:pseudo_if_if}]
+var x = 10
+var y
+IF x % 2 == 0 {
+    y = 2
+} 
+
+IF x % 5 == 0 {
+    y = 5
+}
+\end{lstlisting}
+After the program in Listing \ref{code:pseudo_if_else_if} runs, the value of \lstinline{y} is $2$ because the \lstinline{ELSE IF} statement \textbf{only} runs if the initial \lstinline{IF} statement's conditional evaluates to be false.
+Compare that to the program in Listing \ref{code:pseudo_if_if} where the value of \lstinline{y} is $5$ because both conditionals evaluate to true and therefore the code within both \lstinline{IF} statements are run.
+Therefore, the line of code that is run last is the one that sets the value of \lstinline{y}.
 
 \section{Loops}
 
@@ -161,111 +259,75 @@ Cool!
 What would happen if we removed line $5$ from Listing \ref{code:loop_pseudo}?
 In that case, the statement \lstinline{i < 5} would always be true and the loop would never stop.
 This is called an \textbf{infinite loop} because the loop will run an infinite number of times betcause the terminating condition will never be false!
-While many times an \textbf{infinite loop} is a bug, it is sometimes desirable behavior and maybe languages allow you to write \lstinline|LOOP { ... }| (i.e. having no \textit{terminating condition}) to explicitly declare an infinite loop.
-
-\section{Conditionals}
+While an \textbf{infinite loop} is oftentimes a bug \footnote{A bug your programming behaving in a manner that is not what you expected/want.}, it is sometimes desirable behavior and some languages allow you to write \lstinline|LOOP { ... }| (i.e. having no \textit{terminating condition}) to explicitly create an infinite loop.
 
 \section{Functions}
 
-\section{Structs}
+From Algebra, you should know that a function $f(x)$ takes in a variable $x$ and computes a result $y$.
+Functions in programming do (almost) the same thing!
+They can also take in some input(s) to compute some output(s); however, they don't necessarily have to have any inputs or outputs.
+Let us create a function based off the code from Listing \ref{code:loop_pseudo}
 
-\section{Exercises}
-
-\subsection{Variables}
-
-\begin{Exercise}
-
-\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_1}, mathescape]
-var x = 1
-var y = x + 3
-var z = y $\times$ 5
-\end{lstlisting}
-
-\begin{enumerate}
-\item What is the value of \lstinline{y} after Line 2 executes (or does it not exist or is this code invalid)?
-\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
-\item What is the value of \lstinline{z} after Line 3 executes (or does it not exist or is this code invalid)?
-\end{enumerate}
-
-\end{Exercise}
-
-\begin{Exercise}
-
-\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_2}]
-var x = x + 5
-var y = 3
-\end{lstlisting}
-
-\begin{enumerate}
-\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
-\end{enumerate}
-
-\end{Exercise}
-
-\begin{Exercise}
-
-\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_3},mathescape]
-var x = 2
-var y = x $\times$ 2
-var z = y $\times$ 2
-x = z $\times$ 4
-y = x / 2
-\end{lstlisting}
-
-\begin{enumerate}
-\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
-\end{enumerate}
-
-\begin{enumerate}
-\item What is the value of \lstinline{x} after Line 3 executes (or does it not exist or is this code invalid)?
-\item What is the value of \lstinline{y} after Line 5 executes (or does it not exist or is this code invalid)?
-\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
-\end{enumerate}
-
-\end{Exercise}
-
-\subsection{Loops}
-\setcounter{Exercise}{0}
-
-\begin{Exercise}
-\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_1},mathescape]
-var x = 2
-var i = 0
-LOOP i $<=$ 7 {
-    x = x + 5
+\begin{lstlisting}[caption={Your first function.}, label={code:fn_pseudo}]
+FUNCTION test(var x) {
+    var i = 0
+    LOOP i < 5 {
+        x = x + 1
+        i = i + 1
+    }
+    return x
 }
 \end{lstlisting}
 
-\begin{enumerate}
-\item How many times will the loop run?
-\item What is the value of \lstinline{x} after the loop finishes running $3$ times.
-\end{enumerate}
-\end{Exercise}
+Here, we created a new \lstinline{FUNCTION} called \lstinline{test} that takes in a variable that we call \lstinline{x} as input.
+The \lstinline{FUNCTION test(var x)} part is oftentimes called the \textbf{function signature}.
+Every time we ``call'' the \lstinline{test} function, all the code between the curly brackets will be run \lstinline|{ ... }|.
+This function will compute a result that gets \lstinline{returned} to whoever called the function.
+If there was no \lstinline{return} statement then this function would have zero outputs.
+Thus we can write
+\begin{lstlisting}[caption={Call test.}, label={code:call_fn_pseudo}]
+var z = 5
+var x = 2
+var w = test(z)
+var a = test(1)
+var b = test(x)
+\end{lstlisting}
+to get $w = 11$ and $a = 6$ and $b = 7$ by ``calling'' the \lstinline{test} function three times with different inputs each time.
 
-\begin{Exercise}
-\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_2},mathescape]
-var x = 1
-var i = 9
-LOOP i $>=$ 0 {
-    x = x * 2
-    i = i - 3
+\subsection{Variable Scope}
+
+Before this point, every time we wrote \lstinline{var x}, we assumed that the variable \lstinline{x} would exist from the point where you saw \lstinline{var x} to when the program ends.
+However, now we see that we wrote \lstinline{var x} twice: once in Listing \ref{code:fn_pseudo} and once in Listing \ref{code:call_fn_pseudo}.
+What do?
+This is where the concept of \textbf{variable scopes} come into play.
+In other words, the \lstinline{var x} inside the function has nothing to do with the \lstinline{var x} outside of the function, they are two separate variables!
+Every time you call the \lstinline{test} function, your computer will create a new variable \lstinline{x} that is: 1) separate from the \lstinline{var x} that is outside of the function and 2) separate from the \lstinline{var x} from the last time you called the function.
+The same applies for the variable \lstinline{i}.
+Note that the specific rules of variable scopes depend on the programming language so we will go into more detail about variable scopes once we start dealing with a real programming language.
+
+\subsection{Function Input(s)}
+
+You may have noticed that in Listing \ref{code:fn_pseudo} we only wrote \lstinline{var x} without assigning \lstinline{x} a value.
+You would be correct; however, note that \lstinline{x} is \textbf{undefined} but rather the computer will implicitly set \lstinline{x} to whatever value gets passed in as the input of the function.
+Thus, if you write \lstinline{test(27)} then inside the \lstinline{test} function, \lstinline{x} gets set to $27$.
+
+You can also write functions that take in multiple inputs.
+In that case, you would just add additional variable inputs within the parentheses in the function signature.
+For example: \lstinline{FUNCTION test_2(var x, var y, var z)} would be a function that takes in $3$ inputs.
+You would call this function in the same way, i.e. \lstinline{test_2(100, 24, -34)}.
+
+\subsection{Function Output}
+
+The function's output is determined by the value coming after the \lstinline{return} statement.
+In this case, we just wrote the variable \lstinline{x}, but we could also write a statement like \lstinline{x + 2}.
+When/if the \lstinline{return} statement is run, the function immediately ends regardless of whether or not there are lines of code that would have otherwise run if the \lstinline{return} statement was not there.
+Thus, the function in Listing \ref{code:fn_unreachable} will always return $20$.
+\begin{lstlisting}[caption={Unreachable Code.}, label={code:fn_unreachable}]
+FUNCTION test() {
+    return 20
+    var x = 5
+    return x
 }
 \end{lstlisting}
-
-\begin{enumerate}
-\item How many times will the loop run?
-\item What is the value of \lstinline{x} after the loop finishes running.
-\end{enumerate}
-\end{Exercise}
-
-\begin{Exercise}
-
-Write a program that will
-\begin{enumerate}
-\item Set the value of $y$ to be $7$.
-\item Increment the value of $x$ (with an initial value of your choosing) $y$ number of times.
-\end{enumerate}
-
-\end{Exercise}
 
 \end{document}

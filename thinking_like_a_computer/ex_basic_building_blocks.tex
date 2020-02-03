@@ -1,0 +1,200 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{exercise}
+
+\lstset{
+numbers=left, 
+numberstyle=\small, 
+numbersep=8pt, 
+frame = single, 
+framexleftmargin=15pt,
+basicstyle = \ttfamily,
+columns=fullflexible
+}
+
+\title{Basic Building Blocks: Exercises}
+
+\begin{document}
+\maketitle
+
+\section{Variables}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_1}, mathescape]
+var x = 1
+var y = x + 3
+var z = y $\times$ 5
+var w
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{y} after Line 2 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 3 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{w} after Line 4 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_2}]
+var x = x + 5
+var y = 3
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_var_3},mathescape]
+var x = 2
+var y = x $\times$ 2
+var z = y $\times$ 2
+x = z $\times$ 4
+y = x / 2
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after Line 3 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{y} after Line 5 executes (or does it not exist or is this code invalid)?
+\item What is the value of \lstinline{z} after Line 2 executes (or does it not exist or is this code invalid)?
+\end{enumerate}
+
+\end{Exercise}
+
+\section{Conditionals}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_conditionals_1},mathescape]
+var x = 24
+var y
+IF x == 24 {
+    y = 26
+}
+
+var z
+IF x % 2 == 0 {
+    z = 5
+} ELSE {
+    z = 10
+}
+
+IF x % 4 == 0 {
+    y = 12
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item What is the value of \lstinline{x} after the program finishes running?
+\item What is the value of \lstinline{y} after the program finishes running?
+\item What is the value of \lstinline{z} after the program finishes running?
+\end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a program that assigns values to the variables \lstinline{y} and \lstinline{z} depending on the value of \lstinline{x} (choose your own initial value).
+If \lstinline{x} is divisble by 7 then set \lstinline{y} to be $0$ and \lstinline{z} to be $x - 5$.
+Otherwise, set \lstinline{y} to be $x + 1$ and \lstinline{z} to be $x - 1$.
+
+\end{Exercise}
+
+\section{Loops}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_1},mathescape]
+var x = 2
+var i = 0
+LOOP i $<=$ 7 {
+    x = x + 5
+}
+\end{lstlisting}
+
+\begin{enumerate}
+\item How many times will the loop run?
+\item What is the value of \lstinline{x} after the loop finishes running $3$ times?
+\end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_loop_2},mathescape]
+var x = 1
+var i = 9
+LOOP i $>=$ 0 {
+    x = x * 2
+    i = i - 3
+}
+z = x / 2
+\end{lstlisting}
+
+\begin{enumerate}
+\item How many times will the loop run?
+\item What is the value of \lstinline{x} after the loop finishes running?
+\item What is the value of \lstinline{z} after line 7 runs?
+\end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a program that will
+\begin{enumerate}
+\item Set the value of $y$ to be $7$.
+\item Increment the value of $x$ (with an initial value of your choosing) $y$ number of times.
+\end{enumerate}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a program that will count the number of odd numbers between $1$ and $5258$ (inclusive).
+
+\end{Exercise}
+
+\section{Functions}
+\setcounter{Exercise}{0}
+
+\begin{Exercise}
+\begin{lstlisting}[caption={Pseudocode.}, label={code:exercise_fn_1},mathescape]
+FUNCTION fn(var x) {
+    IF x % 2 == 0 {
+        return 1
+    }
+    return 5
+}
+var w = fn(20)
+\end{lstlisting}
+
+What is the value of \lstinline{w} after the program finishes running?
+
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a function signature for a function named \lstinline{callme} that takes in $2$ inputs.
+Call the input variables whatever you want.
+
+\end{Exercise}
+
+\begin{Exercise}
+
+Write a function that takes in three arguments: \lstinline{a}, \lstinline{b}, and \lstinline{x}.
+The function should check all the numbers between \lstinline{a} and \lstinline{b} (exclusive) and return the numbers that are divisble by \lstinline{x}.
+
+\end{Exercise}
+
+
+\end{document}
