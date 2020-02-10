@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{tabularx}
+
+\title{Numbers}
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+The standard decimal numeral system that we all know and love is great for humans because having each digit represent some multiple of a power of $10$ is very convenient (and easy).
+This is called a \textit{base-10} system.
+This lesson will instead teach you about the binary (\textit{base-2}) and hexadecimal (\textit{base-16}) numeral systems which two other common numeral systems in the world of programming.
+Why is that you might ask?
+Well as you know, everything on a computer is represented as a $0$ or a $1$. 
+Those are two numbers which naturally leads to a \textit{base-2} system.
+However, writing everything as $0$s and $1$s sucks for humans; so we make it simpler for ourselves by writing numbers in \textit{base-16} format so we can easily figure out how the number was originally written in \textit{base-2} due to the fact the $16$ is $2^4$.
+Note that I am not saying that you will never see \textit{base-10} while programming; you will still spend most of your time writing code using numbers written in \textit{base-10}; however, having an understanding of the \textit{base-2} and \textit{base-16} numeral systems will help your understanding of how a computer functions.
+
+\section{Decimal Numbers}
+
+Let us go back to the basics and re-examine what you know about \textit{base-10} numbers.
+What does it actually mean for a number to be written as
+\begin{equation}
+1, 234, 567
+\end{equation}
+?
+We know almost instinctively at this point that this number is one million, two-hundred thirty-four thousand, and five-hundred sixty-seven.
+Why?
+Because $7$ is in the ones place, $6$ is in the tens place, $5$ is in the hundredths place, etc.
+In other words, we computed the number in our head as
+\begin{align}
+7 \times & 10^0 + \\
+6 \times & 10^1 + \\
+5 \times & 10^2 + \\
+4 \times & 10^3 + \\
+3 \times & 10^4 + \\
+2 \times & 10^5 + \\
+1 \times & 10^6 = 1,234,567
+\end{align}
+.
+The important thing to note is that each place increases the exponent of the \textit{base-n} (in this case $10$) number by $1$.
+It just so happens that the way we write and know numbers is identical to the decimal number system so this is all second nature to us.
+
+\section{Binary Numbers}
+
+So the only differences between decimal (\textit{base-10}) and binary numbers (\textit{base-2}) is that instead of raising $10$ to the power of the digit you raise $2$ to the power of the digit and that you will only use the numbers $0$ and $1$ to write out your number instead of using the numbers $0$ through $9$.
+
+\section{Hexadecimal Numbers}
+
+At this point, you should be able to guess that hexadecimal numbers (\textit{base-16}) numbers raise $16$ to the power of the digit instead of instead of $10$ or $2$.
+However, instead of trying to cram the numbers $10$, $11$, $12$, $13$, $14$, and $15$ into a single digit, we use the letters \textbf{A}, \textbf{B}, \textbf{C}, \textbf{D}, \textbf{E}, and \textbf{F} instead.
+
+\begin{table}
+\centering
+\caption{Hexadecimal digits.}
+\begin{tabularx}{0.5\textwidth}{ |C|C| }
+\hline
+\textbf{Hexadecimal Digit} & \textbf{Decimal Equivalent} \\
+A & $10$ \\
+B & $11$ \\
+C & $12$ \\
+D & $13$ \\
+E & $14$ \\
+F & $15$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+\end{document}
