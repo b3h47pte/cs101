@@ -231,7 +231,11 @@ LOOP i < 5 {
     i = i + 1
 }
 \end{lstlisting}
-Here, the statement \lstinline|LOOP i < 5 { ... } | means that we want to \textbf{loop} (repeat) everything between the curly braces (\lstinline|{ ... }|) while the \textit{terminating condition} \lstinline{i < 5} is true.
+Here, the statement \lstinline|LOOP i < 5 { ... } | means that we want to \textbf{loop} (repeat) everything between the curly braces (\lstinline|{ ... }|) while the \textit{terminating condition} or \textit{conditional} \lstinline{i < 5} is true.
+Notice the difference between the \lstinline{LOOP} statement and the \lstinline{IF} statement.
+In the case where the conditional is false, both the \lstinline{LOOP} and \lstinline{IF} statements will jump to the end of the block (as denoted by \lstinline|}|).
+In the case where the conditional is true, both the \lstinline{LOOP} and \lstinline{IF} will execute their respective blocks (everything between the curly braces [\lstinline|{ ... }|]); however, after that, the \lstinline{LOOP} will repeat itself and go back to checking the conditional while the \lstinline{IF} statement will move on to the code after the block.
+Every time the code within the \lstinline{LOOP} block finishes running (and the first time the code runs the \lstinline{LOOP}), the condtional is checked and if it is true, the code within the \lstinline{LOOP} block will run again; thus, the loop will repeat itself as long as the conditional is true.
 Thus, Listing \ref{code:loop_pseudo} can be interpreted as
 \begin{enumerate}
 \item Create a new variable \lstinline{x} and set it to $1$.
@@ -280,6 +284,7 @@ FUNCTION test(var x) {
 \end{lstlisting}
 
 Here, we created a new \lstinline{FUNCTION} called \lstinline{test} that takes in a variable that we call \lstinline{x} as input.
+This \lstinline{test(var x)} function is the parallel to the mathematical $f(x)$.
 The \lstinline{FUNCTION test(var x)} part is oftentimes called the \textbf{function signature}.
 Every time we ``call'' the \lstinline{test} function, all the code between the curly brackets will be run \lstinline|{ ... }|.
 This function will compute a result that gets \lstinline{returned} to whoever called the function.
@@ -292,7 +297,8 @@ var w = test(z)
 var a = test(1)
 var b = test(x)
 \end{lstlisting}
-to get $w = 11$ and $a = 6$ and $b = 7$ by ``calling'' the \lstinline{test} function three times with different inputs each time.
+to get $w = 10$ and $a = 6$ and $b = 7$ by ``calling'' the \lstinline{test} function three times with different inputs each time.
+Every time we write \lstinline{var y = test(x)}, we are doing the programming parallel to saying $y = f(x)$.
 
 \subsection{Variable Scope}
 
@@ -329,5 +335,93 @@ FUNCTION test() {
     return x
 }
 \end{lstlisting}
+
+\section{Putting it All Together}
+
+At this point you should understand the basics of all the building blocks introduced.
+However, the power of programming only begins to be revealed once you start using the building blocks together.
+You need to be able to create variables when you need to, create functions to simplify your code, use \lstinline{IF} statements and \lstinline{LOOP} together, etc.
+
+Let us assume that we want to solve the following problem: count how many numbers between two numbers $a$ and $b$ (inclusive) are divisble by another number $x$.
+Let assume that we want to find the answer in the following scenarios:
+\begin{enumerate}
+\item $x = 3$, $a = 10$, $b = 599$
+\item $x = 7$, $a = 23$, $b = 43$
+\item $x = 153$, $a = 25$, $b = 123456$
+\end{enumerate}
+We see that we want to perform the same operation three times (determining how many numbers between $a$ and $b$ are divisble by $x$).
+This calls for using a \lstinline{FUNCTION} and calling the \lstinline{FUNCTION} three times.
+Next, we see that we want to count the numbers between two numbers; in effect, we want to examine some interval of numbers.
+This calls for a \lstinline{LOOP}.
+Furthermore, we see that we only want to count the numbers divisble by $x$ which calls for using an \lstinline{IF} statement.
+
+We can thus start with writing a function signature as shown in Listings \ref{code:review_fn_sig}.
+\begin{lstlisting}[caption={Function signature.}, label={code:review_fn_sig}]
+FUNCTION countDivisibleByInRange(var a, var b, var x)
+\end{lstlisting}
+Simple.
+We can name the function whatever we want, but it is generally a good idea to name it something reasonable and descriptive so you know what it does later on!
+Next, we know that we want to call the function $3$ times to compute the answer to the given situations so our program will look like Listings \ref{code:review_problem_setup} where \lstinline{answer0}, \lstinline{answer1}, and \lstinline{answer2} are the answers to the 1st, 2nd, and 3rd situation respectively.
+\begin{lstlisting}[caption={Problem setup.}, label={code:review_problem_setup}]
+var a0 = 10
+var b0 = 599
+var x0 = 3
+var answer0 = countDivisibleByInRange(a0, b0, x0)
+
+var a1 = 23
+var b1 = 43
+var x1 = 7
+var answer1 = countDivisibleByInRange(a1, b1, x1)
+
+var a2 = 25
+var b2 = 123456
+var x2 = 153
+var answer2 = countDivisibleByInRange(a2, b2, x2)
+\end{lstlisting}
+
+Now, all that's left to fill out is what \lstinline{countDivisibleByInRange} actually does.
+We know we need to count something, so the first thing we do is create a variable called \lstinline{count}.
+\begin{lstlisting}[caption={Count.}, label={code:review_var_count}]
+var count = 0
+\end{lstlisting}
+Next, we know we need to loop through every number between $a$ and $b$ inclusive \footnote{You could use \lstinline{a} instead of \lstinline{i} here.}.
+\begin{lstlisting}[caption={Loop.}, label={code:review_loop}]
+var i = a
+LOOP i <= b {
+    ...
+    i = i + 1
+}
+\end{lstlisting}
+Inside the loop, we need to check if the number \lstinline{i} is divisble by \lstinline{x}; if it is, we need to increment \lstinline{count}.
+\begin{lstlisting}[caption={Check and Increment.}, label={code:review_check_inc}]
+    IF i % x == 0 {
+        count = count + 1
+    }
+\end{lstlisting}
+Finally, we know that it needs to \lstinline{return} the desired answer.
+\begin{lstlisting}[caption={Return.}, label={code:review_return}]
+return count
+\end{lstlisting}
+
+Putting it all together gives us the full function as shown in Listing \ref{code:review_full_fn}.
+\begin{lstlisting}[caption={Full function.}, label={code:review_full_fn}]
+FUNCTION countDivisibleByInRange(var a, var b, var x) {
+    var count = 0
+    var i = a
+    LOOP i <= b {
+        IF i % x == 0 {
+            count = count + 1
+        }
+        i = i + 1
+    }
+    return count
+}
+\end{lstlisting}
+
+At the end of the day, programming is about figuring out how to get from point A to point B using the tools you know (in this case, the variables, the \lstinline{IF} statement, the \lstinline{LOOP} statement, and functions).
+To give a writing analogy, you know Frodo is in Rivendell with the ring but you need to get Frodo to Mordor, how do you do it?
+In J.R.R. Tolkien's case, you write three books about how a fellowship of the ring is made, how they get split up, how Rohan and Gondor become involved, etc.
+If I were to write it, being an unskilled, untrained writer, the story would have probably ended in a page or two (or never ended).
+The morale of the story here is that programming, like most skills, takes time to develop and the only real way to become better is to keep doing it so you become more familiar with the tools in your tool belt and to start being able to recognize patterns and understanding why certain tools are great for handling that problem.
 
 \end{document}
