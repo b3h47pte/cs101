@@ -2,6 +2,17 @@
 \usepackage{amsmath}
 \usepackage{fullpage}
 \usepackage{tabularx}
+\usepackage{listings}
+\lstset{
+numbers=left, 
+numberstyle=\small, 
+numbersep=8pt, 
+frame = single, 
+framexleftmargin=15pt,
+basicstyle = \ttfamily,
+columns=fullflexible
+}
+
 
 \title{Numbers}
 
@@ -19,7 +30,7 @@ Why is that you might ask?
 Well as you know, everything on a computer is represented as a $0$ or a $1$. 
 Those are two numbers which naturally leads to a \textit{base-2} system.
 However, writing everything as $0$s and $1$s sucks for humans; so we make it simpler for ourselves by writing numbers in \textit{base-16} format so we can easily figure out how the number was originally written in \textit{base-2} due to the fact the $16$ is $2^4$.
-Note that I am not saying that you will never see \textit{base-10} while programming; you will still spend most of your time writing code using numbers written in \textit{base-10}; however, having an understanding of the \textit{base-2} and \textit{base-16} numeral systems will help your understanding of how a computer functions.
+This is not to say that you will never see \textit{base-10} while programming; you will still spend most of your time writing code using numbers written in \textit{base-10}; however, having an understanding of the \textit{base-2} and \textit{base-16} numeral systems will help your understanding of how a computer functions.
 
 \section{Decimal Numbers}
 
@@ -49,11 +60,31 @@ It just so happens that the way we write and know numbers is identical to the de
 \section{Binary Numbers}
 
 So the only differences between decimal (\textit{base-10}) and binary numbers (\textit{base-2}) is that instead of raising $10$ to the power of the digit you raise $2$ to the power of the digit and that you will only use the numbers $0$ and $1$ to write out your number instead of using the numbers $0$ through $9$.
+Thus, if we were to write the binary number
+\begin{equation}
+1011 0001
+\end{equation}
+, how would we convert that to its decimal equivalent?
+Simple, the same as we did for decimal numbers; however, in this case, we have a $1$ in the ones place, a $0$ in the twos place, a $0$ in the fours place, a $0$ in the eight place, etc.
+In other words, we can compute the decimal number as
+\begin{align}
+1 \times & 2^0 + \\
+0 \times & 2^1 + \\
+0 \times & 2^2 + \\
+0 \times & 2^3 + \\
+1 \times & 2^4 + \\
+1 \times & 2^5 + \\
+0 \times & 2^6 + \\
+1 \times & 2^7 = 178
+\end{align}
+.
+Generally, to differentiate binary numbers from decimal numbers, we prefix binary numbers with \lstinline{0b}.
+Thus, without context, \lstinline{1001} is the decimal representation of $1001$ and \lstinline{0b1001} is the binary representation of $9$.
 
 \section{Hexadecimal Numbers}
 
 At this point, you should be able to guess that hexadecimal numbers (\textit{base-16}) numbers raise $16$ to the power of the digit instead of instead of $10$ or $2$.
-However, instead of trying to cram the numbers $10$, $11$, $12$, $13$, $14$, and $15$ into a single digit, we use the letters \textbf{A}, \textbf{B}, \textbf{C}, \textbf{D}, \textbf{E}, and \textbf{F} instead.
+However, instead of trying to cram the numbers $10$, $11$, $12$, $13$, $14$, and $15$ into a single character, we use the letters \textbf{A}, \textbf{B}, \textbf{C}, \textbf{D}, \textbf{E}, and \textbf{F} instead.
 
 \begin{table}
 \centering
@@ -61,14 +92,51 @@ However, instead of trying to cram the numbers $10$, $11$, $12$, $13$, $14$, and
 \begin{tabularx}{0.5\textwidth}{ |C|C| }
 \hline
 \textbf{Hexadecimal Digit} & \textbf{Decimal Equivalent} \\
+\hline
 A & $10$ \\
+\hline
 B & $11$ \\
+\hline
 C & $12$ \\
+\hline
 D & $13$ \\
+\hline
 E & $14$ \\
+\hline
 F & $15$ \\
 \hline
 \end{tabularx}
 \end{table}
+
+Thus, if we write the hexadecimal number \lstinline{1A40} we can compute the decimal number as 
+\begin{align}
+0 \times & 16^0 + \\
+4 \times & 16^1 + \\
+10 \times & 16^2 + \\
+1 \times & 16^3 = 6720
+\end{align}
+
+Much like binary numbers, we need a way to differentiate hexadecimal numbers from binary numbers.
+Thus, we prefix hexadecimal numbers with \lstinline{0x}.
+Therefore without context, \lstinline{1001} is the decimal representation of $1001$ and \lstinline{0x1001} is the hexadecimal representation of $4097$.
+
+\section{Bits and Bytes}
+
+As mentioned earlier, everything on the computer is stored in binary form and thus every number, letter, and dot on the screen is represented somewhat in binary form somewhere.
+All of this binary data is stored in what we call \textit{memory} (we will talk more about memory later, but for this lesson all you need to know is that memory is where a bunch of binary stuff gets stored).
+However, we need some way of measuring \textit{how much} memory is being used much like we can use grams for measuring mass and meters for measuring distance \footnote{All hail the metric system.}.
+The metric we will use are called \textit{bits} and \textit{bytes}.  
+A single binary digit is a \textit{bit} so a single bit can only represent $0$ or $1$.
+Two bits can represent $0$, $1$, $2$, and $3$ and so on and so forth.
+Furthermore, $8$ \textit{bits} make up a \textit{byte}.
+The largest number representable by a \textit{byte} is $255$ (i.e. $2^8 - 1$) \footnote{This number comes up fairly often, especially when dealing with colors!}.
+Generally, numbers are usually represented either using $32$ bits ($4$ bytes) or $64$ bits ($8$ bytes)
+In the case where you try to represent a smaller number (e.g. $1$), you just store a $0$ for all the more significant digits.
+
+Of course, it would be tedious to count how much memory we have on our computers using bytes given the advances in computer technology in the past few decades.
+Thus, much like the metric system, we have \textit{kilobytes} (KB, $1000$ bytes), \textit{megabytes} (MB, $1000^2$ bytes), \textit{gigabytes} (GB, $1000^3$ bytes), etc.
+However, $1000$ isn't a power of $2$ which is inconvenient in the world of computers so we often use \textit{kibibytes} (KiB, $1024$ bytes), \textit{mebibytes} (MiB, $1024^2$ bytes), and \textit{gibibytes} (GiB, $1024^3$ bytes) instead.
+In fact, the use of \textit{kibibytes}, \textit{mebibytes}, and \textit{gibibytes} is so prevalent that they are often just called \textit{kilobytes}, \textit{megabytes}, \textit{gigabytes}.
+In this lesson and exercises and all the accompanying lessons and exercises, assume (unless otherwise noted) that \textit{kilobytes}, \textit{megabytes}, and \textit{gigabytes} are actually referring to \textit{kibibytes}, \textit{mebibytes}, and \textit{gibibytes}.
 
 \end{document}
