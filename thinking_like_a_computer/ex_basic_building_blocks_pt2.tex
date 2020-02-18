@@ -1,0 +1,191 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{exercise}
+
+\lstset{
+numbers=left, 
+numberstyle=\small, 
+numbersep=8pt, 
+frame = single, 
+framexleftmargin=15pt,
+basicstyle = \ttfamily,
+columns=fullflexible
+}
+
+\title{Basic Building Blocks: Exercises, Part 2}
+
+\begin{document}
+\maketitle
+
+\begin{Exercise}
+
+    Point out \textbf{all} the errors in the following piece of code.
+
+    \begin{lstlisting}
+        var x = 5
+        var y = y + x
+        var count = 0
+        LOOP x < 10 {
+            LOOP y {
+                IF y % 2 == 0 {
+                    count = count + 1
+                }
+                y = y + 1
+            }
+            x + 2
+        }
+    \end{lstlisting}
+
+\end{Exercise}
+
+\begin{Exercise}
+    \begin{lstlisting}
+        FUNCTION isEven(var x) {
+            YOUR CODE HERE
+        }
+    \end{lstlisting}
+
+    Replace \lstinline{YOUR CODE HERE} to check if the input variable \lstinline{x} is even or not.
+    If it is even, return \lstinline{1} and if it is odd, return \lstinline{0}.
+\end{Exercise}
+
+\begin{Exercise}
+
+    Assume you are given the following loop
+    \begin{lstlisting}
+        LOOP i < x {
+            i = i + y
+        }
+    \end{lstlisting}
+
+    How many times does the loop run if
+    \begin{enumerate}
+    \item $x = 10$ and $y = 1$
+    \item $x = 11$ and $y = 2$
+    \item $x = 523$ and $y = 1$
+    \item $x = 12$ and $y = 4$
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+
+    Assume you are given the following loop
+    \begin{lstlisting}
+        LOOP i <= x {
+            i = i + y
+        }
+    \end{lstlisting}
+
+    How many times does the loop run if
+    \begin{enumerate}
+    \item $x = 10$ and $y = 1$
+    \item $x = 11$ and $y = 2$
+    \item $x = 523$ and $y = 1$
+    \item $x = 12$ and $y = 4$
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}
+
+    Describe in words what this function does.
+
+    \begin{lstlisting}
+        FUNCTION someFunction(var a, var b) {
+            IF a < b {
+                RETURN b
+            }
+            RETURN a
+        }
+    \end{lstlisting}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+    Describe in words what this function does.
+
+    \begin{lstlisting}
+        FUNCTION someFunction(var a, var b) {
+            var cur = a
+            IF cur % 2 != 0 {
+                cur = cur + 1
+            }
+
+            var count = 0
+            LOOP cur <= b {
+                IF cur % 3 == 0 {
+                    count = count + 1
+                }
+                cur = cur + 2
+            }
+
+            return count
+        }
+    \end{lstlisting}
+
+\end{Exercise}
+
+\begin{Exercise}
+
+    Assume you are given a function \lstinline{print} that takes in some variable \lstinline{x} and ``prints'' the result on your computer somehow (do not implement this).
+    In otherwords, its \textbf{function signature} is
+    \begin{lstlisting}
+        FUNCTION print(var x)
+    \end{lstlisting}
+    Thus, to print the number $1$ to your screen you would write \lstinline{print(1)}.
+    This function does not return any variables.
+    Furthermore, assume you are given a function \lstinline{rand} that takes no variables as input and returns a random non-negative integer ($0$, $1$, $2$, ...).
+    Its function signature is 
+    \begin{lstlisting}
+        FUNCTION rand()
+    \end{lstlisting}
+    and returns a single number.
+
+    In this exercise, ``print'' all the odd numbers between \lstinline{a} and \lstinline{b} (inclusive).
+    Finally, ``print'' the number of even numbers between \lstinline{a} and \lstinline{b} (inclusive).
+    \begin{lstlisting}
+        var a = rand()
+        var b = rand()
+    \end{lstlisting}
+
+    Do not forget that \lstinline{a} can be greater than, less than, or equal to \lstinline{b}.
+
+\end{Exercise}
+
+\begin{Exercise}
+    Assume once again, that you have access to the \lstinline{print} function from the previous exercise.
+    Imagine you have a \lstinline{2x2} matrix (a matrix with $2$ rows and $2$ columns): 
+    \begin{align*}
+        \begin{bmatrix}
+            0 & 1 \\
+            2 & 3
+        \end{bmatrix}
+    \end{align*}
+    The first row is row $0$, the second row is row $1$.
+    Similarly, the first column is column $0$, the second column is column $1$.
+    Assume that every element in the matrix can be computed as
+    \begin{align*}
+        n_c \times r + c
+    \end{align*}
+    where $n_c$ is the number of columns in the matrix, $r$ is the row of the current element, and $c$ is the column of the current element.
+    Thus, in the \lstinline{2x2} case, for the top right element (row $0$, column $1$), you get
+    \begin{align*}
+        2 \times 0 + 1 = 1
+    \end{align*}
+
+    In this exercise, you will implement a function that will print all the numbers above the diagonal (i.e. $c > r$) for a matrix of arbitrary size.
+    \begin{lstlisting}
+        FUNCTION printNumbersAboveDiagonal(var numRows, var numColumns) {
+            YOUR CODE HERE
+        }
+    \end{lstlisting}
+    Here, \lstinline{var numRows} and \lstinline{var numColumns} tell you how many rows and columns your matrix has.
+    In the case where your matrix has 2 rows and 2 columns, your function should only print $1$.
+    In the case where your matrix has 3 rows and 3 columns, your function should print $1$, $2$, and $5$.
+
+\end{Exercise}
+
+
+\end{document}
